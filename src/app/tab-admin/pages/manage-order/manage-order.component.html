@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Admin" color="dark" defaultHref="tab-admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshNewOrder($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Get new orders...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged(+$event.detail.value)" value="0">
+      <ion-segment-button value="0">
+        <ion-label>New</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        <ion-label>Current</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="2">
+        <ion-label>Delivery</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="3">
+        <ion-label>Pickup</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="-1">
+        <ion-label>History</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-list-header>
+    <ion-label>Orders</ion-label>
+    <ion-button (click)="showDetailsAll = !showDetailsAll">
+      {{ showDetailsAll? 'Hide order details' : 'Show order details'}}
+    </ion-button>
+  </ion-list-header>
+  <ion-item (click)="openChangeBranch()" lines="none">
+    <ion-icon name="location-outline" slot="start" size="small"></ion-icon>
+    <ion-input placeholder="Select Branch..." [value]="(selectedBranch$ | async)?.branchName"
+      style="font-size: 14px; font-weight: bold; text-align: left;">
+    </ion-input>
+  </ion-item>
+  <ion-list lines="full">
+    <admin-order-item *ngFor="let order of orders$ | async" [order]="order" [showDetailsAll]="showDetailsAll"
+      (updateOrder)="updateOrderStatus($event)">
+      <!-- (cancel)="cancelOrder($event)" (complete)="completeOrder($event)"  -->
+    </admin-order-item>
+    <ion-card *ngIf="(orders$ | async).length === 0" class="full-screen-card" style="text-align: center; height: 100%;">
+      <ion-card-content>
+        <i class="fas fa-receipt" style="font-size:50px"></i>
+        <br /> <br />
+        <p>No available orders</p>
+      </ion-card-content>
+    </ion-card>
+    <!-- <order-items [orders]="orders$ | async" (completeOrder)="completeOrder($event)" (cancelOrder)="cancelOrder($event)">
+    </order-items> -->
+  </ion-list>
+</ion-content>

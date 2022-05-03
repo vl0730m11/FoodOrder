@@ -1,0 +1,40 @@
+p {
+    color: black;
+}
+
+ion-item {
+    --min-height: 16px;
+}
+
+h2 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.item-border {
+    position: relative;
+    width: initial;
+}
+
+.tip-card {
+    height: 60px;
+    width: 150px;
+    margin: 0 !important;
+    // background: whitesmoke;
+    border-radius: 5px;
+    border: #EFEFEF 0.5px solid;
+    padding: 10px 10px 10px 10px;
+    text-align: left;
+}
+
+.item-name {
+    font-size: 14px;
+}
+
+.item-description {
+    font-size: 12px;
+}
+
+.item-price {
+    font-size: 12px;
+}

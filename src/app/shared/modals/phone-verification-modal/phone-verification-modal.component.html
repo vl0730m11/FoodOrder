@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" color="dark" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" padding>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>Enter your mobile number</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail slot="start" style="height:25px; width: 45px">
+        <img [src]="'assets/icon/australia-flag.png'">
+      </ion-thumbnail>
+      <ion-input type="tel" placeholder="+61 420 123 456" [(ngModel)]="phoneNumber"></ion-input>
+    </ion-item>
+  </ion-list>
+  <!-- <div *ngIf="windowRef.confirmationResult"> -->
+  <!-- <ion-item>
+    <ion-label>Enter your verification code here</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-input type="number" [(ngModel)]="verificationCode"></ion-input>
+  </ion-item> -->
+
+  <div id="recaptcha-container"></div>
+</ion-content>
+<ion-footer>
+  <div style="padding: 20px">
+    <ion-button id="send-btn"expand="full" color="dark" (click)="sendLoginCode()">
+      Send Verification SMS
+    </ion-button>
+  </div>
+</ion-footer>

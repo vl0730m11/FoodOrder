@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" text="Reservations" defaultHref="tabs/more/my-bookings"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="updateBooking()">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="booking$ | async">
+  <ion-list lines="none">
+    <ion-list-header *ngIf="branch$ | async as branch">
+      <ion-label>{{ branch.branchName }}</ion-label>
+    </ion-list-header>
+    <ion-item *ngIf="booking.confirmed && !booking.cancelled">
+      <i class="fas fa-check-circle" style="color: green; font-size:15px"></i>
+      &nbsp;
+      <ion-text>Reservation confirmed</ion-text>
+    </ion-item>
+    <ion-item *ngIf="!booking.confirmed && !booking.cancelled">
+      <i class="fas fa-exclamation-circle" style="color: #FFCC00; font-size:15px"></i>
+      &nbsp;
+      <ion-text>Reservation awaiting for confirmation</ion-text>
+    </ion-item>
+    <ion-item *ngIf="booking.cancelled">
+      <i class="fas fa-times-circle" style="color: #F32013; font-size:15px"></i>
+      &nbsp;
+      <ion-text>Reservation cancelled</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="person-outline" size="small"></ion-icon>
+      &nbsp;
+      <ion-text>{{ booking.guestNo }}</ion-text>
+      &nbsp;
+      &nbsp;
+      <ion-icon name="calendar-outline" size="small"></ion-icon>
+      &nbsp;
+      <ion-text> {{ booking.displayDate | date : 'EE, d MMM' }} at {{ booking.time.hours }}:{{ booking.time.minutes | number : '2.0' }} {{ booking.time.hours < 12 ? 'am' : 'pm'}}
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-button fill="outline" color="dark" (click)="showReservationActions(booking)">Manage Reservation
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <div class="booking-section">
+    <ion-text class="sub-header">Restaurant information</ion-text>
+    <p>
+      <b>Important dining information</b><br />
+      We have a 5 minutes grace period. Please call us if you are running later than 5 minutes after your
+      reservation time.
+    </p>
+    <p>
+      We may contact you about this reservation, so please ensure your email and phone number are up to date.
+    </p>
+    <p>
+      Your table will be reserved for 1 hour for parties of up to 2; 1 hour 15 minutes for parties of up to 4; 1 hour
+      30 minutes for parties of up to 6; and 2 hourse for parties of 7+.
+    </p>
+    <p>
+      <b>A note from the restaurant</b><br />
+      Upon arrival, we will require a contact name and number of every guest in your party as a condition of entry to
+      comply with COVID-19 safety.
+    </p>
+    <p>
+      Please do not attend the restaurant if you are feeling unwell or showing symptoms of illness.
+    </p>
+    <p>
+      Please ensure you practice social distancing. Thank you.
+    </p>
+  </div>
+
+  <div class="booking-section">
+    <ion-text class="sub-header">Any special requests?</ion-text>
+    <p>
+      <ion-textarea rows="4" style="border: solid #DFDFDF 1px; padding: 5px 10px 5px 10px"
+        placeholder="Add special requests here..." [(ngModel)]="booking.notes">
+      </ion-textarea>
+    </p>
+  </div>
+
+  <div class="booking-section">
+    <ion-text class="sub-header">What's the occasion?</ion-text>
+    <ion-slides [options]="slideOccasionOpts">
+      <ion-slide *ngFor="let occasion of occasions">
+        <ion-chip style="border: solid lightgrey 0.5px"
+          [ngStyle]="{'background-color': booking.occasion == occasion.name ? '#DCDCDC' : '#FFFFFF'}"
+          (click)="booking.occasion = occasion.name">
+          {{ occasion?.name }} &nbsp;
+          <i class='{{ occasion.iconClass }}'></i>
+        </ion-chip>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <div class="booking-section" *ngIf="branch$ | async as branch">
+    <ion-text class="sub-header">Restaurant address</ion-text>
+    <ion-item lines="none">
+      <ion-icon name="location-outline" size="small" slot="start"></ion-icon>
+      <ion-text style="font-size:16px">
+        {{ branch.address  + ', ' + branch.suburb + ', ' + branch.state + ' ' + branch.postcode}}
+      </ion-text>
+    </ion-item>
+    <br />
+    <ion-text class="sub-header">Restaurant phone</ion-text>
+    <ion-item lines="none" (click)="showPhoneActions(branch.telephone)">
+      <ion-icon name="call-outline" size="small" slot="start"></ion-icon>
+      <ion-text style="font-size:16px">
+        {{ branch.telephone }}
+      </ion-text>
+    </ion-item>
+
+    <ion-button fill="outline" expand="block" color="danger" (click)="onCancelBooking(booking)"
+      *ngIf="!booking.cancelled">
+      <b>Cancel reservation</b>
+    </ion-button>
+  </div>
+  <br /><br />
+</ion-content>
+<!-- <ion-footer *ngIf="booking$ | async as booking">
+  <ion-button expand="full" fill="outline" color="danger" (click)="cancelBooking(booking)">
+    Cancel reservation
+  </ion-button>
+</ion-footer> -->

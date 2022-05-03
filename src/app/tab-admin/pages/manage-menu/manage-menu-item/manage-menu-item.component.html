@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Category" color="dark" [defaultHref]="'tabs/admin/manage-menu/' + loadedItem?.categoryId">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Item</ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" color="dark" (click)="saveChanges()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" padding *ngIf="loadedItem">
+  <ion-list>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <ion-thumbnail size="large" style="margin-top: 10px; width: 50%; height:auto">
+        <img [src]="loadedItem?.imageUrl?  loadedItem?.imageUrl : 'assets/icon/unavailable.png' ">
+      </ion-thumbnail>
+    </div>
+    <ion-item lines='none'>
+      <ion-label position="stacked">Unavailable ?</ion-label>
+      <ion-toggle [(ngModel)]="isUnvailable" (ionChange)="onAvailableChange($event)">
+      </ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Item Name <span style="color: red">*</span></ion-label>
+      <ion-input placeholder="Enter name" [(ngModel)]="loadedItem.title" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Item Price <span style="color: red">*</span></ion-label>
+      <ion-input placeholder="Enter price" [(ngModel)]="loadedItem.price" type="number"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-item-group>
+    <ion-list-header>
+      <ion-label>Options</ion-label>
+      <ion-chip (click)="addOption()">
+        <ion-icon name="add"></ion-icon>
+        <ion-label>Add</ion-label>
+      </ion-chip>
+    </ion-list-header>
+    <ion-list lines="none" *ngIf="!loadedItem?.options?.length">
+      <ion-item>No options</ion-item>
+    </ion-list>
+    <ion-list *ngIf="loadedItem?.options?.length">
+      <ion-item-sliding *ngFor="let option of loadedItem.options">
+        <ion-item>
+          <ion-label>{{option}}</ion-label>
+          <ion-note slot="end" (click)="editOption(option)">Edit</ion-note>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeOption(option)">
+            <ion-icon size="small" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <ion-list-header>
+      <ion-label>Ingredients</ion-label>
+    </ion-list-header>
+    <ion-list>
+      <ion-item *ngFor="let ingredient of loadedIngredients">
+        <ion-label>
+          <h2>{{ ingredient?.name }}</h2>
+        </ion-label>
+        <ion-checkbox slot="end" color="danger" [(ngModel)]="ingredient.isChecked">
+        </ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </ion-item-group>
+</ion-content>

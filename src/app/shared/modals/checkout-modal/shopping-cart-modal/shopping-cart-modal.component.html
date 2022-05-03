@@ -1,0 +1,32 @@
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="close()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Your cart</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true" style="padding:0 !important">
+    <location-time #location [user]="currentUser$ | async" (orderTypeChange)="onChangeOrderType($event)"
+      (branchSelected)="openChangeBranch()">
+    </location-time>
+    <!-- <coupon></coupon> -->
+    <shopping-cart #cart [cartItems]="cartItems$ | async" [cartPrice]="cartPrice$ | async" (clearCartClick)="clearCart()"
+      [deliveryFee]="deliveryFee" (addItemClick)="onAddItemClick()" (valueChange)="onValueChange($event)">
+    </shopping-cart>
+    <payment-method #payment [selectedCard]="selectedCard$ | async" (onSelectPayment)="openChangePayment()">
+    </payment-method>
+  </ion-content>
+  <ion-footer>
+    <!-- <ion-button expand="full" color="dark" (click)="goToPayment()" [disabled]="cartPrice == 0 || !isOkToPay()">
+      Go To Payment
+    </ion-button> -->
+     <ion-button expand="full" color="dark" (click)="pay()" [disabled]="cartPrice == 0 || !isOkToPay()">
+      Place Order
+      &nbsp;-&nbsp;{{ this.location.diningOption == 1 ? 'Pickup' : 'Delivery' }}
+      &nbsp;-&nbsp;{{ cartPrice + cart.deliveryFee + cart.tips  | currency }}
+    </ion-button>
+  </ion-footer>

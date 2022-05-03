@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Admin" color="dark" defaultHref="tabs/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Reservations</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="onAddNewBooking()">
+        <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list-header>
+    <ion-label>Reservations</ion-label>
+  </ion-list-header>
+  <ion-item (click)="openChangeBranch()" lines="none">
+    <ion-icon name="location-outline" slot="start" size="small"></ion-icon>
+    <ion-input placeholder="Select Branch..." [value]="(selectedBranch$ | async)?.branchName"
+      style="text-align: left;">
+    </ion-input>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label position="stacked">Date</ion-label>
+    <ion-datetime display-format="DDD D MMM, YYYY" [min]="currentTime" [max]="nextYear" [value]="currentTime"
+      display-timezone="utc" (ionChange)="onDateChanged($event?.detail?.value)" style="max-width: 100% !important;">
+    </ion-datetime>
+  </ion-item>
+  <ion-searchbar (ionChange)="onSearch($event?.detail?.value)"></ion-searchbar>
+
+  <ion-list *ngIf="bookings$ | async as bookings">
+    <!-- <ion-item-sliding #slidingItem *ngFor="let b of bookings" (click)="presentBookingActions(b)"> -->
+    <ion-item *ngFor="let b of bookings" (click)="presentBookingActions(b)">
+      <ion-avatar slot="start">
+        <ion-img [src]="b?.customer?.imageUrl ? b.customer.imageUrl : 'assets/icon/unavailable.png'"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ b?.customer?.name }}</h2>
+        <p>
+          <ion-icon name="person-outline" size="small"></ion-icon>
+          &nbsp;
+          <ion-text>{{ b.guestNo }}</ion-text>
+          &nbsp;
+          &nbsp;
+          <ion-icon name="calendar-outline" size="small"></ion-icon>
+          &nbsp;
+          <ion-text>
+            <!-- {{ b.date | date : 'EE, d MMM' }} at  -->
+            {{ b.slot.hours }}:{{ b.slot.minutes | number : '2.0' }} {{ b.slot.period }}
+          </ion-text>
+        </p>
+      </ion-label>
+      <ion-button *ngIf="b?.tableNo && !b?.cancelled" slot="end" fill="outline">{{ b.tableNo }}</ion-button>
+      <ion-button *ngIf="b?.cancelled" slot="end" fill="outline" color="danger">Cancelled</ion-button>
+    </ion-item>
+    <!-- <ion-item-options side="end">
+        <ion-item-option color="light" (click)="presentCallActions(b?.mobile, slidingItem)">
+          <ion-icon name="call"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="confirmRemoveItem(b, slidingItem)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding> -->
+  </ion-list>
+</ion-content>

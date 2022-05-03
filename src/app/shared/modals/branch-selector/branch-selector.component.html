@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()" text="Close">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Restaurant options</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-divider>
+    <ion-label style="font-size: 14px;">
+      Branches
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-list lines="full" *ngIf="branches$ | async as branches">
+    <ion-item *ngFor="let item of branches" (click)="onSelectBranch(item)">
+      <ion-thumbnail slot="start">
+        <img [src]="item?.logoUrl">
+        <!-- <ion-icon name="fast-food-outline" size="large"></ion-icon> -->
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.branchName }}</h2>
+        <p>{{ item?.address }}</p>
+        <p>{{ item?.suburb }}, {{ item?.postcode }}</p>
+        <p>Tel: {{ item?.telephone }}</p>
+        <p *ngIf="!item?.openAt2">Opening hours: {{ item?.openAt }} - {{ item?.closeAt }}</p>
+        <p *ngIf="item?.openAt2">Opening hours: </p>
+        <p *ngIf="item?.openAt2">Lunch: {{ item?.openAt }} - {{ item?.closeAt }}</p>
+        <p *ngIf="item?.openAt2">Dinner: {{ item?.openAt2 }} - {{ item?.closeAt2 }}</p>
+      </ion-label>
+      <ion-icon slot="end" name="checkmark-outline" color="dark" *ngIf="item?.isSelected && !item?.isClosed">
+      </ion-icon>
+      <ion-button slot="end" color="danger" *ngIf="item.isClosed">Closed</ion-button>
+      <!-- <ion-button slot="end" color="success" *ngIf="!item.isClosed">Opening</ion-button> -->
+    </ion-item>
+    <!-- <ion-item *ngFor="let c of branches" (click)="onSelectCard(c)" style="font-size: 14px;">
+      <ion-thumbnail slot="start" style="height:25px; width: 35px">
+        <ion-icon name="fast-food-outline"></ion-icon>
+      </ion-thumbnail>
+      <ion-text>Card ending {{ c.cardNumber }}</ion-text>
+      <ion-icon slot="end" name="checkmark-outline" color="dark" *ngIf="c?.isSelected && !c?.isExpired">
+      </ion-icon>
+      <ion-chip slot="end" color="danger" *ngIf="c?.isExpired">
+        <ion-label color="danger">Expired</ion-label>
+      </ion-chip>
+    </ion-item>
+    <ion-item style="font-size: 14px; color: #54A759;" (click)="onAddPaymentMethod()">
+      <ion-text>Add payment method</ion-text>
+    </ion-item> -->
+  </ion-list>
+
+</ion-content>

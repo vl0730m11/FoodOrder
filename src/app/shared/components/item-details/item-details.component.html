@@ -1,0 +1,81 @@
+<ion-card style="border-radius: 0; margin: 5px !important;">
+  <ion-icon class="favoriteIcon" (click)="toggleFavorite()" [name]="!isFavorite ?'heart-outline':'heart'" color="light">
+  </ion-icon>
+  <img [src]="item?.imageUrl ? item?.imageUrl : 'assets/icon/unavailable.png'">
+</ion-card>
+
+<ion-toolbar>
+  <div style="display: flex; align-items: center; justify-content: center;">
+    <ion-label>
+      <h2 style="text-align: center;"> {{ loadedItem?.title}}&nbsp;<i *ngIf="item?.isSpicy" class="fas fa-pepper-hot" style="color: red;"></i> </h2>
+      <p style="font-size:15px; text-align: center; margin: 10px 0 10px 0;"> {{ loadedItem?.price | currency}} </p>
+    </ion-label>
+  </div>
+  <div style="display: flex; align-items: center; justify-content: center;">
+    <ion-buttons>
+      <ion-button slot="icon-only" color="danger" (click)="decrement()">
+        <ion-icon name="remove-circle-outline" size="large"></ion-icon>
+      </ion-button>
+      &nbsp;
+      <ion-label>{{ itemCount }}</ion-label>
+      &nbsp;
+      <ion-button slot="icon-only" color="danger" (click)="increment()">
+        <ion-icon name="add-circle-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+</ion-toolbar>
+<ion-list>
+  <ion-radio-group [(ngModel)]="loadedItem.selectedOption" *ngIf="loadedItem?.options.length > 0" (ionChange)="onProteinSelect($event?.detail?.value)">
+    <ion-item-divider>
+      <ion-label> Protein Options </ion-label>
+    </ion-item-divider>
+    <ion-item *ngFor="let option of loadedItem?.options">
+      <ion-label>{{option}}</ion-label>
+      <ion-radio slot="end" value="{{option}}"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  <div *ngIf="ingredients$ | async">
+    <ion-item-group *ngIf="extraIngredients.length > 0">
+      <ion-item-divider>
+        <ion-label>
+          Add
+        </ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let ingredient of extraIngredients">
+        <ion-label>
+          <h2>Extra {{ ingredient?.name }}</h2>
+          <p>{{ ingredient?.price | currency }}</p>
+        </ion-label>
+        <ion-checkbox slot="end" color="danger" [(ngModel)]="ingredient.isChecked" (click)="toggleExtras(ingredient)">
+        </ion-checkbox>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="removeIngredients.length > 0">
+      <ion-item-divider>
+        <ion-label>
+          Remove
+        </ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let ingredient of removeIngredients">
+        <ion-label>
+          <h2>No {{ ingredient?.name }}</h2>
+        </ion-label>
+        <ion-checkbox slot="end" color="danger" [(ngModel)]="ingredient.isChecked" (click)="toggleRemoves(ingredient)">
+        </ion-checkbox>
+      </ion-item>
+    </ion-item-group>
+  </div>
+</ion-list>
+<!-- </ion-content> -->
+
+
+
+<!-- <div style="display: flex; align-items: center; justify-content: center;">
+      <ion-buttons slot="start">
+        <ion-fab-button size="small" color="secondary" (click)="decrement()">-</ion-fab-button>
+        &nbsp; <ion-label>{{ itemCount }}</ion-label> &nbsp;
+        <ion-fab-button size="small" color="secondary" (click)="increment()">+</ion-fab-button>
+      </ion-buttons>
+    </div> -->

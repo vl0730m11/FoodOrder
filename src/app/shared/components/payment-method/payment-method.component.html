@@ -1,0 +1,33 @@
+<!-- <ion-card class="full-screen-card" >
+  <ion-card-header>
+    <ion-list lines="full">
+      <ion-item>
+        <ion-card-subtitle><strong>Payment Method</strong></ion-card-subtitle>
+      </ion-item>
+    </ion-list>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-thumbnail slot="start" style="height:25px; width: 35px">
+          <img *ngIf="preferedCard?.provider == 'AMEX'" src="./assets/icon/amex-logo.png">
+          <img *ngIf="preferedCard?.provider == 'VISA'" src="./assets/icon/visa-logo.jpg">
+          <img *ngIf="preferedCard?.provider == 'MASTER'" src="./assets/icon/mastercard-logo.jpg">
+        </ion-thumbnail>
+        <h4>Card ending {{preferedCard?.cardNumber}} </h4>
+        <ion-button color="danger" fill="outline" slot="end" (click)="changePaymentMethod()">Change</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card> -->
+<ion-list lines="full">
+  <ion-item style="font-size: 14px;" (click)="changePaymentMethod()">
+    <ion-thumbnail slot="start" style="height:25px; width: 35px">
+      <img *ngIf="selectedCard?.provider == 'American Express'" src="./assets/icon/amex-logo.png">
+      <img *ngIf="selectedCard?.provider == 'Visa'" src="./assets/icon/visa-logo.jpg">
+      <img *ngIf="selectedCard?.provider == 'Mastercard'" src="./assets/icon/mastercard-logo.jpg">
+    </ion-thumbnail>
+    <ion-text>Card ending {{selectedCard?.cardNumber}} </ion-text>
+    <!-- <ion-button color="danger" fill="outline" slot="end" (click)="changePaymentMethod()">Change</ion-button> -->
+  </ion-item>
+</ion-list>

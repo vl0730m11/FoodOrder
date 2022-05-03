@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Signin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="signinForm">
+    <ion-card>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Email address</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="john@gmail.com"></ion-input>
+        <div *ngIf="(submitted && f.email.errors)">
+          <div *ngIf="f.email.errors.required" style="color: red;">Field is required</div>
+          <div *ngIf="f.email.errors.email" style="color: red;">Invalid email address</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+        <div *ngIf="(submitted && f.password.errors)">
+          <div *ngIf="f.password.errors.required" style="color: red;">Field is required</div>
+        </div>
+      </ion-item>
+      <br />
+    </ion-card>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" color="dark" (click)="signin()">
+    Continue
+  </ion-button>
+</ion-footer>

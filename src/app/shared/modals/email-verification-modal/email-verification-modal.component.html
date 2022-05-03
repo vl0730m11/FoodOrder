@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" padding>
+  <ion-item>
+    <ion-label position="stacked">Email address</ion-label>
+    <ion-input [value]="email" readonly="true"></ion-input>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <div style="padding: 20px">
+    <ion-button expand="full" color="dark" (click)="sendVerifyEmail()">
+      Verify Email
+    </ion-button>
+  </div>
+
+</ion-footer>

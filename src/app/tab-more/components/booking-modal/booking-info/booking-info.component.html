@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Make a reservation</ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" [disabled]="reservationForm.invalid" (click)="submit()">
+        Next
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" style="padding:0 !important">
+  <form [formGroup]="reservationForm">
+    <ion-list lines="full">
+      <ion-item (click)="onSelectBranch()">
+        <ion-icon name="location-outline" slot="start" size="small"></ion-icon>
+        <ion-label class="info-label">
+          Restaurant
+        </ion-label>
+        <ion-input slot="end" placeholder="Select Branch..." [value]="(selectedBranch$ | async)?.branchName">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon size="small" slot="start" name="person-outline"></ion-icon>
+        <ion-label class="info-label">
+          Party Size
+        </ion-label>
+        <ion-select class="custom-options" name="Party Size" formControlName="guestNo"
+          (ionChange)="onPartySizeChange($event?.detail?.value)" style="max-width: 100% !important;">
+          <ion-select-option *ngFor="let option of partySizeOptions" [value]="option">
+            {{option == 10 ? '10 or more' : option}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon size="small" slot="start" name="calendar-outline"></ion-icon>
+        <ion-label class="info-label">
+          Date
+        </ion-label>
+        <ion-datetime display-format="DDD D MMM, YYYY" [min]="currentTime" [max]="nextYear" [value]="currentTime"
+          display-timezone="utc" (ionChange)="onBookingDateChange($event?.detail?.value)"
+          style="max-width: 100% !important;"></ion-datetime>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon size="small" slot="start" name="time-outline"></ion-icon>
+        <ion-label class="info-label">
+          Time
+        </ion-label>
+        <ion-select name="Time" placeholder="Required" (ionChange)="onSelectTimeSlot($event?.detail?.value)"
+          [value]="selectedSlot" style="max-width: 100% !important">
+          <ion-select-option *ngFor="let slot of slots$ | async" [value]="slot">
+            {{ slot?.time?.hours + ':' +  (slot.time.minutes == 0 ? ('00' + slot.period) :slot.time.minutes + slot.period)   }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item-divider>
+      </ion-item-divider>
+      <ion-item lines="none">
+        <ion-textarea rows="4" cols="20" placeholder="Add a special request (optional)" formControlName="notes">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-item-divider>
+        What's the occasion ?
+      </ion-item-divider>
+      <ion-slides [options]="slideOccasionOpts" style="padding: 10px 5px 10px 5px">
+        <ion-slide *ngFor="let occasion of occasions">
+          <ion-chip style="border: solid lightgrey 0.5px"
+            [ngStyle]="{'background-color': selectedOccasion == occasion.name ? '#DCDCDC' : '#FFFFFF'}"
+            (click)="onOccasionSelect(occasion.name)">
+            {{ occasion?.name }} &nbsp;
+            <i class='{{ occasion.iconClass }}'></i>
+          </ion-chip>
+        </ion-slide>
+      </ion-slides>
+
+      <ion-item-divider>
+      </ion-item-divider>
+      <ion-item *ngIf="customer$ | async as cust" (click)="onChangeMobile(cust.mobile)">
+        <ion-icon name="call-outline" slot="start" size="small"></ion-icon>
+        <ion-label class="info-label">
+          Phone
+        </ion-label>
+        <ion-text slot="end"> {{ cust?.mobile }}
+        </ion-text>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

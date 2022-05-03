@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()" text="Close">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Payment options</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-card>
+    <ion-card-header>
+      <ion-list lines="full">
+        <ion-item>
+          <ion-card-subtitle><strong>Payment Method</strong></ion-card-subtitle>
+          <ion-icon name="add-circle-outline" slot="end" color="danger" size="default" (click)="addPaymentMethod()">
+          </ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none" *ngIf="cards$ | async as cards">
+        <ion-item *ngFor="let c of cards" (click)="onSelectCard(c)">
+          <ion-thumbnail slot="start" style="height:25px; width: 35px">
+            <img *ngIf="c?.provider == 'AMEX'" src="./assets/icon/amex-logo.png">
+            <img *ngIf="c?.provider == 'VISA'" src="./assets/icon/visa-logo.jpg">
+            <img *ngIf="c?.provider == 'MASTER'" src="./assets/icon/mastercard-logo.jpg">
+          </ion-thumbnail>
+          <h4>Card ending {{ c.cardNumber }} </h4>
+          <ion-icon slot="end" name="checkmark-outline" color="success" *ngIf="c?.preference == 1 && !c?.isExpired">
+          </ion-icon>
+          <ion-chip slot="end" color="danger" *ngIf="c?.isExpired">
+            <ion-label color="danger">Expired</ion-label>
+          </ion-chip>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card> -->
+  <ion-item-divider>
+  </ion-item-divider>
+  <ion-item-divider>
+    <ion-label style="font-size: 14px;">
+      Payment Method
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-list lines="full" *ngIf="cards$ | async as cards">
+    <ion-item *ngFor="let c of cards" (click)="onSelectCard(c)" style="font-size: 14px;">
+      <ion-thumbnail slot="start" style="height:25px; width: 35px">
+        <img *ngIf="c?.provider == 'American Express'" src="./assets/icon/amex-logo.png">
+        <img *ngIf="c?.provider == 'Visa'" src="./assets/icon/visa-logo.jpg">
+        <img *ngIf="c?.provider == 'Mastercard'" src="./assets/icon/mastercard-logo.jpg">
+      </ion-thumbnail>
+      <ion-text>Card ending {{ c.cardNumber }}</ion-text>
+      <ion-icon slot="end" name="checkmark-outline" color="dark" *ngIf="c?.isSelected && !c?.isExpired">
+      </ion-icon>
+      <ion-chip slot="end" color="danger" *ngIf="c?.isExpired">
+        <ion-label color="danger">Expired</ion-label>
+      </ion-chip>
+    </ion-item>
+    <ion-item style="font-size: 14px; color: #54A759;" (click)="onAddPaymentMethod()">
+      <ion-text>Add payment method</ion-text>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

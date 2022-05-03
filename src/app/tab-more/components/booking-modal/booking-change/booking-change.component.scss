@@ -1,0 +1,14 @@
+ion-item {
+    font-size:14px; 
+    .info-label {
+        text-align: left;
+    }
+    ion-input, ion-datetime, ion-select {
+        font-weight: bold;
+        text-align: right;
+    }
+}
+
+ion-slide { 
+    width: unset !important;
+}

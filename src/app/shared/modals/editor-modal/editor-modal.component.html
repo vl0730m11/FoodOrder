@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" padding>
+  <ion-item>
+    <ion-label position="stacked">{{ label }}</ion-label>
+    <ion-input [(ngModel)]="value"></ion-input>
+  </ion-item>
+  <br />
+  <div style="padding: 20px">
+    <ion-button expand="full" color="dark" (click)="update()">
+      Update
+    </ion-button>
+  </div>
+</ion-content>

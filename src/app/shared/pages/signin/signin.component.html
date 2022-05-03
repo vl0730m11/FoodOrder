@@ -1,0 +1,81 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Signin</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="signin()" [disabled]="signinForm.invalid">
+        Continue
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="signinForm">
+    <ion-card>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Email address</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="john@gmail.com"></ion-input>
+        <div *ngIf="(submitted && f.email.errors)">
+          <div *ngIf="f.email.errors.required" style="color: red;">Field is required</div>
+          <div *ngIf="f.email.errors.email" style="color: red;">Invalid email address</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+        <div *ngIf="(submitted && f.password.errors)">
+          <div *ngIf="f.password.errors.required" style="color: red;">Field is required</div>
+        </div>
+      </ion-item>
+      <br />
+    </ion-card>
+  </form>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Signin</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="signin()" [disabled]="signinForm.invalid">
+        Continue
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="signinForm">
+    <ion-card>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Email address</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="john@gmail.com"></ion-input>
+        <div *ngIf="(submitted && f.email.errors)">
+          <div *ngIf="f.email.errors.required" style="color: red;">Field is required</div>
+          <div *ngIf="f.email.errors.email" style="color: red;">Invalid email address</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+        <div *ngIf="(submitted && f.password.errors)">
+          <div *ngIf="f.password.errors.required" style="color: red;">Field is required</div>
+        </div>
+      </ion-item>
+      <br />
+    </ion-card>
+  </form>
+</ion-content>

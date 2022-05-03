@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="goBackToInfo()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Confirm reservation</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" style="padding:0 !important" *ngIf="booking$ | async as booking">
+  <ion-list>
+    <ion-list-header *ngIf="branch$ | async as branch">
+      <ion-label>{{ branch.branchName }}</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-icon name="person-outline" size="small"></ion-icon>
+      &nbsp;
+      <ion-text>{{ booking.guestNo }}</ion-text>
+      &nbsp;
+      &nbsp;
+      <ion-icon name="calendar-outline" size="small"></ion-icon>
+      &nbsp;
+      <ion-text> {{ booking.date | date : 'EE, d MMM' }} at {{ '3:30pm' }}</ion-text>
+    </ion-item>
+  </ion-list>
+
+  <div class="booking-section">
+    <ion-text class="sub-header">Restaurant information</ion-text>
+    <p>
+      <b>Important dining information</b><br />
+      We have a 5 minutes grace period. Please call us if you are running later than 5 minutes after your
+      reservation time.
+    </p>
+    <p>
+      We may contact you about this reservation, so please ensure your email and phone number are up to date.
+    </p>
+    <p>
+      Your table will be reserved for 1 hour for parties of up to 2; 1 hour 15 minutes for parties of up to 4; 1 hour
+      30 minutes for parties of up to 6; and 2 hourse for parties of 7+.
+    </p>
+    <p>
+      <b>A note from the restaurant</b><br />
+      Upon arrival, we will require a contact name and number of every guest in your party as a condition of entry to
+      comply with COVID-19 safety.
+    </p>
+    <p>
+      Please do not attend the restaurant if you are feeling unwell or showing symptoms of illness.
+    </p>
+    <p>
+      Please ensure you practice social distancing. Thank you.
+    </p>
+  </div>
+
+  <div class="booking-section">
+    <ion-text class="sub-header">Any special requests?</ion-text>
+    <p>
+      <ion-textarea rows="4" style="border: solid #DFDFDF 1px; padding: 5px 10px 5px 10px"
+        placeholder="Add special requests here..." [(ngModel)]="notes">
+      </ion-textarea>
+    </p>
+  </div>
+
+  <div class="booking-section">
+    <ion-text class="sub-header">What's the occasion?</ion-text>
+    <ion-slides [options]="slideOccasionOpts">
+      <ion-slide *ngFor="let occasion of occasions">
+        <ion-chip style="border: solid lightgrey 0.5px"
+          [ngStyle]="{'background-color': booking.occasion == occasion.name ? '#DCDCDC' : '#FFFFFF'}"
+          (click)="booking.occasion = occasion.name; currentBooking.occasion = occasion.name">
+          {{ occasion?.name }} &nbsp;
+          <i class='{{ occasion.iconClass }}'></i>
+        </ion-chip>
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <br /> <br />
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" color="dark" (click)="confirmReservation()">
+    Reserve
+  </ion-button>
+</ion-footer>

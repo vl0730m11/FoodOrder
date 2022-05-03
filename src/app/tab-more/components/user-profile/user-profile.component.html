@@ -1,0 +1,88 @@
+<form [formGroup]="userForm" (ngSubmit)="saveUser()">
+  <div style="display: flex; align-items: center; justify-content: center;">
+    <ion-avatar size="large" style="margin-top: 10px; width: 100px; height: 100px">
+      <img [src]="user?.photoURL? user?.photoURL : 'assets/icon/profile.png' ">
+    </ion-avatar>
+  </div>
+  <br />
+  <ion-card>
+    <ion-item>
+      <ion-label position="stacked">Name</ion-label>
+      <ion-input formControlName="displayName" readonly="true"></ion-input>
+    </ion-item>
+    <br />
+    <ion-item>
+      <ion-label position="stacked">Email address</ion-label>
+      <ion-input formControlName="email" readonly="true"></ion-input>
+      <ion-button *ngIf="user.emailVerified" class="vertical-center" slot="end" color="success">Verified</ion-button>
+      <ion-button *ngIf="!user.emailVerified" class="vertical-center" slot="end" color="warning"
+        (click)="openVerification()">Unverified</ion-button>
+    </ion-item>
+    <br />
+    <ion-item (click)="editAddress()">
+      <ion-label position="stacked">Delivery address</ion-label>
+      <ion-input formControlName="address"></ion-input>
+    </ion-item>
+    <br />
+    <ion-item (click)="editMobile()">
+      <ion-label position="stacked">Mobile number</ion-label>
+      <ion-input type="tel" formControlName="mobile"></ion-input>
+    </ion-item>
+    <br />
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <ion-button size="small" color="light" fill="solid" expand="block" type="submit">
+        <ion-icon slot="start" color="dark" name="save"></ion-icon> Save
+      </ion-button>
+    </div>
+
+    <br />
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-list lines="full">
+        <ion-item>
+          <ion-card-subtitle><strong>Payment Method</strong></ion-card-subtitle>
+          <ion-icon name="add-circle-outline" slot="end" color="danger" size="default" (click)="addPaymentMethod()">
+          </ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item-sliding *ngFor="let c of cards" #slidingItem>
+          <ion-item>
+            <ion-thumbnail slot="start" style="height:25px; width: 35px">
+              <!-- <img *ngIf="c?.provider == 'AMEX'" src="./assets/icon/amex-logo.png">
+              <img *ngIf="c?.provider == 'VISA'" src="./assets/icon/visa-logo.jpg">
+              <img *ngIf="c?.provider == 'MASTER'" src="./assets/icon/mastercard-logo.jpg"> -->
+              <img *ngIf="c?.provider == 'American Express'" src="./assets/icon/amex-logo.png">
+              <img *ngIf="c?.provider == 'Visa'" src="./assets/icon/visa-logo.jpg">
+              <img *ngIf="c?.provider == 'MasterCard'" src="./assets/icon/mastercard-logo.jpg">
+            </ion-thumbnail>
+            <h4>Card ending {{ c.cardNumber }} </h4>
+            <ion-chip slot="end" color="success" *ngIf="c?.preference == 1 && !c?.isExpired">
+              <ion-label color="success">Preferred</ion-label>
+            </ion-chip>
+            <ion-chip slot="end" color="danger" *ngIf="c?.isExpired">
+              <ion-label color="danger">Expired</ion-label>
+            </ion-chip>
+
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="removeCard(c, slidingItem)" color="danger">
+              <ion-icon size="small" name="trash-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</form>
+<div style="display: flex; align-items: center; justify-content: center;">
+  <ion-label (click)="logout.emit()">
+    <h2 style="text-align: center; color:red">Logout</h2>
+    <br />
+    <p> Version 1.0</p>
+  </ion-label>
+</div>
+<br />

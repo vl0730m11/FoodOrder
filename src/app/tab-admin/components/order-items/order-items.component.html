@@ -1,0 +1,40 @@
+<ion-item-sliding #slidingItem *ngFor="let order of orders">
+  <ion-item (click)="goToDetails(order)">
+    <ion-label>
+      <h2>#{{order?.id}} {{order?.customer.name}}</h2>
+      <div class="row">
+        <h4>{{order?.orderPrice | currency}} - M:{{order?.customer.mobile}}</h4>
+      </div>
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="order?.status == -1" color="danger">Cancelled
+      </ion-button>
+      <ion-button slot="icon-only" *ngIf="order?.status == 1" color="danger">
+        Preping<ion-icon name="alarm-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="order?.status == 2 && order?.orderType == 1" color="success">
+        Ready<ion-icon name="basket-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="order?.status == 2 && order?.orderType == 2" color="success">
+        Ready<ion-icon name="checkmark-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-button slot="icon-only" *ngIf="order?.status == 3" color="secondary">
+        Delivering<ion-icon name="car-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-button slot="icon-only" *ngIf="order?.status == 4" color="success">
+        Done<ion-icon name="checkmark-done-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <ion-item-options side="end" *ngIf="order?.status !== -1">
+    <ion-item-option color="light" (click)="presentActionSheet(order, slidingItem)">
+      <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+    </ion-item-option>
+    <ion-item-option color="medium" (click)="prevStatus(order)">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-item-option>
+    <ion-item-option color="dark" (click)="nextStatus(order)">
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>

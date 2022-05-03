@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Receipt</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" padding>
+  <ion-list lines="none">
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <ion-thumbnail slot="start" style="height: 100px; width: 200px;">
+        <img [src]="'assets/icon/aulac-logo-square.jpg'" />
+      </ion-thumbnail>
+    </div>
+    <br />
+    <ion-item>
+      <ion-label slot="start" style="font-size: 22px;"><b>Total</b></ion-label>
+      <ion-text slot="end" style="text-align:right; font-size: 22px;">
+        <b>{{ order?.orderPrice + order?.deliveryPrice + order?.tips | currency: 'AUD'}}</b>
+      </ion-text>
+    </ion-item>
+    <br />
+    <ion-list lines="none">
+      <ion-item *ngFor="let cartItem of order?.cartItems">
+        <ion-label>
+          <h5>{{cartItem?.amount}} x {{ cartItem?.item?.title }}</h5>
+          <p *ngFor="let c of cartItem?.item?.extras">
+            1 x Extra {{ c }}
+          </p>
+          <p *ngFor="let c of cartItem?.item?.removes">
+            1 x No {{ c }}
+          </p>
+        </ion-label>
+        <ion-text slot="end">
+          <p>{{ cartItem?.itemPrice | currency: 'AUD' }}</p>
+        </ion-text>
+      </ion-item>
+    </ion-list>
+    <br />
+    <ion-list lines="none">
+      <ion-item style="font-size: 14px;">
+        <ion-label slot="start">
+          <b>Subtotal</b>
+        </ion-label>
+        <ion-text slot="end">
+          <p>
+            <b>{{ order?.orderPrice | currency: 'AUD' }}</b>
+          </p>
+        </ion-text>
+      </ion-item>
+      <ion-item style="font-size: 14px;">
+        <ion-label slot="start">
+          Delivery Fee
+        </ion-label>
+        <ion-text slot="end">
+          {{ order?.deliveryPrice | currency: 'AUD' }}
+        </ion-text>
+      </ion-item>
+      <ion-item style="font-size: 14px;">
+        <ion-label slot="start">
+          Tips
+        </ion-label>
+        <ion-text slot="end">
+          {{ order?.tips | currency: 'AUD' }}
+        </ion-text>
+      </ion-item>
+    </ion-list>
+  </ion-list>
+  <br />
+  <ion-item (click)="download()">
+    <ion-icon slot="start" name="cloud-download" size="small"></ion-icon>
+    <ion-label>Download PDF</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-icon slot="start" name="mail" size="small"></ion-icon>
+    <ion-label>Resend Email</ion-label>
+  </ion-item>
+</ion-content>
+<ion-footer>
+
+</ion-footer>

@@ -1,0 +1,37 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-thumbnail slot="start" style="height:60px; width: 100%">
+      <img src="./assets/icon/aulac-logo.jpg">
+    </ion-thumbnail>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content [fullscreen]=" true" padding class="slider-zoom">
+  <div class="modal image-modal transparent" ng-click="closeModal()">
+    <div class="transparent">
+      <img [src]="'assets/icon/splash.png'" class="fullscreen-image" />
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-card class="full-screen-card" style="background-color: white;  text-align: center; padding-bottom: 0px;">
+    <ion-card-content>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <ion-label style="font-size:16px;">User your mobile number to get started</ion-label>
+      </div>
+      <div *ngIf="!(user$ | async)">
+        <div style="padding: 20px 20px 5px 20px">
+          <ion-button expand="full" color="dark" (click)="goToHome()">Continue</ion-button>
+        </div>
+      </div>
+      <div *ngIf="user$ | async as user">
+        <div style="padding: 20px 20px 5px 20px">
+          <ion-button expand="full" color="dark" (click)="goToHome()">Continue as {{user?.displayName}}</ion-button>
+        </div>
+        <div style="padding:5px 20px 20px 20px">
+          <ion-button expand="full" color="light" (click)="openSignin()">Not {{user?.displayName}}?</ion-button>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-footer>

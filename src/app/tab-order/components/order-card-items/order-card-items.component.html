@@ -1,0 +1,93 @@
+<!-- <ion-card *ngIf="orders.length === 0">
+  <ion-card-content>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>
+          <h5>You haven't no {{orderType.toLocaleLowerCase()}} order</h5>
+        </ion-label>
+        <ion-icon name="sad-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card> -->
+<ng-container *ngIf="orders.length > 0">
+  <!-- <ion-card *ngFor="let order of orders">
+    <ion-card-header>
+      <ion-list lines="full">
+        <ion-item *ngIf="order">
+          <ion-card-subtitle><strong>Order# {{order?.id}} ({{orderType}})</strong></ion-card-subtitle>
+          <ion-button *ngIf="orderType == 'History'" color="danger" fill="outline" slot="end" (click)="reorder(order)">Reorder</ion-button>
+          <ion-button *ngIf="orderType == 'Upcoming'" color="success" fill="outline" slot="end" (click)="reorder(order)">Details</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="full" *ngIf="order">
+        <ion-item *ngFor="let item of order.items">
+          <ion-label>
+            <h2>{{item?.amount}} x {{ item?.item?.title }}</h2>
+            <h4 *ngFor="let c of item?.item?.extras">
+              1 x Extra {{ c }}
+            </h4>
+            <h4 *ngFor="let c of item?.item?.removes">
+              1 x No {{ c }}
+            </h4>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list lines="full" *ngIf="order">
+        <ion-item>
+          <ion-label>
+            <h4>
+              <strong>TOTAL: {{order.orderPrice | currency}} </strong>
+            </h4>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card> -->
+  <ion-card *ngFor="let order of orders">
+    <ion-list>
+      <ion-item class="order-header">
+        <ion-icon *ngIf="order?.status === 4" slot="start" name="checkmark-circle-outline" color="success" size="large">
+        </ion-icon>
+        <ion-icon *ngIf="order?.status === -1" slot="start" name="close-circle-outline" color="danger" size="large">
+        </ion-icon>
+        <ion-icon *ngIf="order?.status !== -1 && order?.status !== 4" slot="start" name="time-outline" color="dark"
+          size="large">
+        </ion-icon>
+        <ion-label>
+          <h2>{{ getOrderStatus(order?.status, order.orderType) }}</h2>
+          <p>{{ order?.createdOn | date: 'dd/MM/yyyy HH:mm' }}</p>
+          <p>Order #{{ order?.id }}</p>
+        </ion-label>
+        <ion-button *ngIf="!isUpcoming" slot="end" color="danger" (click)="reorderClick.emit(order)">Reorder
+        </ion-button>
+        <ion-button *ngIf="isUpcoming" slot="end" color="dark" (click)="trackClick.emit(order)">Track
+        </ion-button>
+      </ion-item>
+      <ion-list lines="none">
+        <ion-item *ngFor="let item of order?.cartItems">
+          <ion-label>
+            <h2>{{item?.amount}} x {{ item?.item?.title }} 
+              <span *ngIf="item?.item?.selectedOption">({{item?.item?.selectedOption }})</span> 
+            </h2>
+            <h4 *ngFor="let c of item?.item?.extras">
+              1 x Extra {{ c }}
+            </h4>
+            <h4 *ngFor="let c of item?.item?.removes">
+              1 x No {{ c }}
+            </h4>
+            <!-- <p>{{ item?.itemPrice | currency }}</p> -->
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <ion-label>
+          <b>Total: {{ order?.orderPrice | currency}}</b>
+        </ion-label>
+        <ion-button slot="end" color="dark" (click)="showReceipt.emit(order)">View Receipt</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ng-container>

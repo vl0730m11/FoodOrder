@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="signupForm">
+    <ion-card>
+      <ion-item>
+        <ion-label position="stacked">First Name</ion-label>
+        <ion-input type="text" formControlName="name" placeholder="John"></ion-input>
+        <div *ngIf="(submitted && f.name.errors)">
+          <div *ngIf="f.name.errors.required" style="color: red;">Field is required</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Email address</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="john@gmail.com"></ion-input>
+        <div *ngIf="(submitted && f.email.errors)">
+          <div *ngIf="f.email.errors.required" style="color: red;">Field is required</div>
+          <div *ngIf="f.email.errors.email" style="color: red;">Invalid email address</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Delivery address</ion-label>
+        <ion-input type="text" formControlName="address" placeholder="1 ABC Street, Dickson, ACT"></ion-input>
+        <div *ngIf="(submitted && f.address.errors)">
+          <div *ngIf="f.address.errors.required" style="color: red;">Field is required</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+        <div *ngIf="(submitted && f.password.errors)">
+          <div *ngIf="f.password.errors.required" style="color: red;">Field is required</div>
+          <div *ngIf="f.password.errors.minlength" style="color: red;">Password must be at least 6 characters</div>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label position="stacked">Mobile number</ion-label>
+        <ion-input type="number" formControlName="mobile" placeholder="0123456789"></ion-input>
+        <div *ngIf="(submitted && f.mobile.errors)">
+          <div *ngIf="f.mobile.errors.required" style="color: red;">Field is required</div>
+        </div>
+      </ion-item>
+      <br />
+    </ion-card>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" color="dark" (click)="signup()">
+    Continue
+  </ion-button>
+</ion-footer>

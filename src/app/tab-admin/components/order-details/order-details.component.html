@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Order Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <!-- <shopping-cart [cartItems]="order?.cartItems" [readonly]="true">
+  </shopping-cart> -->
+<ion-card>
+  <ion-card-header>
+    <ion-list lines="full">
+      <ion-item>
+        <ion-card-subtitle>
+            <strong>Order {{order.id}}: &nbsp; &nbsp; </strong>
+            <ion-label *ngIf="order?.status == -1" color="danger">Cancelled</ion-label>
+            <ion-label *ngIf="order?.status == 1" color="danger">Preparing</ion-label>
+            <ion-label *ngIf="order?.status == 2" color="success">Ready</ion-label>
+            <ion-label *ngIf="order?.status == 3" color="secondary">Delivering</ion-label>
+            <ion-label *ngIf="order?.status == 4" color="success">Done</ion-label>
+        <ion-label><br>{{order.customer.name}} - {{order.customer.mobile}}</ion-label>
+      </ion-card-subtitle>
+      </ion-item>
+    </ion-list>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list lines="none">
+      <ion-item *ngIf="order?.cartItems?.length == 0">
+        <ion-label>
+          <h5>You haven't added any item</h5>
+        </ion-label>
+        <ion-icon name="sad-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+    <ion-list lines="full">
+        <ion-item *ngFor="let cartItem of order?.cartItems">
+          <ion-label>
+            <h2>{{cartItem?.amount}} x {{ cartItem?.item?.title }}</h2>
+            <h4 *ngFor="let c of cartItem?.item?.extras">
+              1 x Extra {{ c }}
+            </h4>
+            <h4 *ngFor="let c of cartItem?.item?.removes">
+              1 x No {{ c }}
+            </h4>
+            <p>{{ cartItem?.itemPrice | currency }}</p>
+          </ion-label>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+      <h2>Total: ${{total}}</h2>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+
+</ion-content>

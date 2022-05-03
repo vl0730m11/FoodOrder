@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-thumbnail slot="start" style="height:60px; width: 100%">
+      <img src="./assets/icon/aulac-logo.jpg" />
+    </ion-thumbnail>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshOrders($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- <ion-header collapse="condense"> 
+    <ion-toolbar>
+      <ion-title size="large">Order</ion-title>
+    </ion-toolbar> </ion-header> -->
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged(+$event.detail.value)" value="0">
+      <ion-segment-button value="0">
+        <ion-label>Upcomings</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        <ion-label>History</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <ion-list-header>
+    <ion-label>{{header}}</ion-label>
+    <ion-button>See All</ion-button>
+  </ion-list-header>
+
+  <ion-list lines="full" *ngIf="isUpcoming">
+    <order-card-items [orders]="upcomingOrder$ | async" [isUpcoming]="true" (trackClick)="trackOrder($event)"
+      (showReceipt)="showReceipt($event)">
+    </order-card-items>
+    <ion-card *ngIf="(upcomingOrder$ | async).length === 0" class="full-screen-card"
+      style="text-align: center; height: 100%;">
+      <ion-card-content>
+        <i class="fas fa-receipt" style="font-size:50px"></i>
+        <br /> <br />
+        <p>No upcoming orders</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-list lines="full" *ngIf="isHistory">
+    <order-card-items [orders]="historyOrder$ | async" [isUpcoming]="false" (showReceipt)="showReceipt($event)"
+      (reorderClick)=" reorder($event)">
+    </order-card-items>
+    <ion-card *ngIf="(historyOrder$ | async).length === 0" class="full-screen-card"
+      style="text-align: center; height: 100%;">
+      <ion-card-content>
+        <i class="fas fa-receipt" style="font-size:50px"></i>
+        <br /> <br />
+        <p>No past orders</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

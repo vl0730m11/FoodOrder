@@ -1,0 +1,165 @@
+<!-- <ion-card class="full-screen-card">>
+  <ion-card-content>
+    <ion-list lines="full">
+      <ion-item *ngIf="branches$ | async as branches">
+        <ion-label position="floating">Order from</ion-label>
+        <ion-input placeholder="Select Branch..." [value]="(selectedBranch$ | async)?.branchName"
+          style="font-size: 13px;" (click)="onSelectBranch.emit()">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon *ngIf="diningOption == 1" size="small" name="person"></ion-icon>
+        <i *ngIf="diningOption == 2" class="fas fa-shipping-fast"></i>
+        <ion-select name="Dining options" placeholder="Select..." value="2"
+          (ionChange)="onDiningOptionsChange($event?.detail?.value)" style="font-size:14px; text-align: left;">
+          <ion-select-option value="1">Pickup </ion-select-option>
+          <ion-select-option value="2">Delivery</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="time-outline" size="small"></ion-icon>
+        <ion-select name="Timming options" placeholder="Schedule Time..." value="0"
+          (ionChange)="onScheduleTimeChange($event?.detail?.value)" style="font-size:14px; max-width: 100% !important;">
+          <ion-select-option value="0">ASAP (20-30 mins) </ion-select-option>
+          <ion-select-option value="{{option.from + ' ' + option.period}}" *ngFor="let option of timeOptions">
+            {{ option.from + ' - ' + option.to + option.period }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card> -->
+<ion-item-divider>
+  <h5><b>Location & time</b></h5>
+</ion-item-divider>
+<ion-list lines="none">
+  <!-- <ion-list-header>
+    <ion-label>Location & time</ion-label>
+  </ion-list-header> -->
+  <!-- <ion-item class="item-header">
+    <h5><strong>Location & time</strong></h5>
+  </ion-item> -->
+  <ion-list lines="full">
+    <ion-item (click)="branchSelected.emit()">
+      <ion-icon name="location-outline" slot="start" size="small"></ion-icon>
+      <ion-label style="font-size:14px; text-align: left">Order from</ion-label>
+      <ion-input slot="end" placeholder="Select Branch..." [value]="selectedBranch?.branchName"
+        style="font-size: 14px; font-weight: bold; text-align: right;">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon *ngIf="diningOption == 1" size="small" slot="start" name="person"></ion-icon>
+      <ion-icon *ngIf="diningOption == 2" size="small" slot="start" name="car"></ion-icon>
+      <!-- <i *ngIf="diningOption == 2" slot="start" color="danger" class="fas fa-shipping-fast"></i> -->
+      <ion-label style="font-size:14px; text-align: left">Dining options</ion-label>
+      <ion-select name="Dining options" placeholder="Select..." value="1"
+        (ionChange)="onDiningOptionsChange($event?.detail?.value)"
+        style="font-size:14px; text-align: left; font-weight: bold;">
+        <ion-select-option value="1">Pickup</ion-select-option>
+        <ion-select-option value="2">Delivery</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="time-outline" size="small" slot="start"></ion-icon>
+      <ion-label style="font-size:14px" *ngIf="diningOption == 1">Pickup at</ion-label>
+      <ion-label style="font-size:14px" *ngIf="diningOption == 2">Deliver at</ion-label>
+      <ion-select name="Timming options" placeholder="Schedule Time..." value="0"
+        (ionChange)="onScheduleTimeChange($event?.detail?.value)"
+        style="font-size:14px; max-width: 100% !important; font-weight: bold;">
+        <ion-select-option value="0">ASAP (20-30 mins) </ion-select-option>
+        <ion-select-option value="{{option.from + ' ' + option.period}}" *ngFor="let option of timeOptions">
+          {{ option.from + ' - ' + option.to + option.period }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-list>
+<ion-item-divider *ngIf="diningOption == 2">
+  <h5><b>Delivery details</b></h5>
+</ion-item-divider>
+<ion-list *ngIf="diningOption == 2" lines="none">
+  <!-- <ion-list-header>
+    <ion-label>Delivery options</ion-label>
+  </ion-list-header> -->
+  <!-- <ion-item class="item-header">
+    <h5><strong>Delivery options</strong></h5>
+  </ion-item> -->
+  <ion-item>
+    <ion-icon name="call" slot="start" size="small"></ion-icon>
+    <ion-label style="font-size:14px; text-align: left">Mobile</ion-label>
+    <ion-input slot="end" placeholder="Mobile Phone" [(ngModel)]="mobilePhone"
+      style="font-size: 14px; font-weight: bold; text-align: right;">
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="pin" slot="start" size="small"></ion-icon>
+    <ion-label style="font-size: 14px;">Address</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Address Line" [(ngModel)]="addressLine1"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Apt/ Suite/ Floor" [(ngModel)]="addressLine2"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Bussiness or building name" [(ngModel)]="addressLine3"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ng-container [ngSwitch]="deliveryOption$ | async">
+      <ion-icon *ngSwitchCase="1" name="home" size="small" slot="start"></ion-icon>
+      <ion-icon *ngSwitchCase="2" name="person" size="small" slot="start"></ion-icon>
+      <i *ngSwitchCase="3" class="fas fa-road" size="small" slot="start"></i>
+    </ng-container>
+    <ion-label style="font-size:14px; text-align: left">Delivery options</ion-label>
+    <ion-select name="Delivery options" placeholder="Select..." value="1"
+      (ionChange)="onDeliveryOptChange($event?.detail?.value)"
+      style="font-size:14px; max-width: 100% !important; font-weight: bold;">
+      <ion-select-option value="1">Leave at door</ion-select-option>
+      <ion-select-option value="2">Meet at door</ion-select-option>
+      <ion-select-option value="3">Meet at outside</ion-select-option>
+      <ion-select-option value="-1">Other</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- <ion-slides [options]="slideOpts">
+    <ion-slide>
+      <ion-chip color="dark" style="width: fit-content;">
+        <ion-icon name="home" size="small"></ion-icon>
+        <ion-label>Leave at door</ion-label>
+      </ion-chip>
+      <ion-chip color="dark">
+        <ion-icon name="person" size="small"></ion-icon>
+        <ion-label>Meet at door</ion-label>
+      </ion-chip>
+      <ion-chip color="dark">
+        <i class="fas fa-road"></i> &nbsp;&nbsp;
+        <ion-label>Meet outside</ion-label>
+      </ion-chip>
+    </ion-slide>
+  </ion-slides> -->
+  <ion-list lines="full">
+    <ion-item>
+      <ion-textarea style="font-size: 14px" rows="3" cols="20" maxLength="200"
+        placeholder="Add delivery instructions..." [(ngModel)]="deliveryInstruction"></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-list>
+<!-- <ion-card class="full-screen-card" *ngIf="diningOption == 2">
+  <ion-card-header>
+    <ion-card-title style="font-size: 15px;">Delivery options</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-chip color="dark">
+      <ion-icon name="home" size="small"></ion-icon>
+      <ion-label>Leave at door</ion-label>
+    </ion-chip>
+    <ion-chip color="dark">
+      <ion-icon name="person" size="small"></ion-icon>
+      <ion-label>Meet at door</ion-label>
+    </ion-chip>
+    <ion-chip color="dark">
+      <i class="fas fa-road"></i> &nbsp;&nbsp;
+      <ion-label>Meet outside</ion-label>
+    </ion-chip>
+  </ion-card-content>
+</ion-card> -->

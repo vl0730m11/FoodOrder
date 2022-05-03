@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Admin" color="dark" defaultHref="tabs/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Menu</ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" [disabled]="!changed" color="dark" (click)="saveChanges()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list-header>
+    <ion-label>Categories</ion-label>
+  </ion-list-header>
+  <ion-searchbar (ionChange)="onSearch($event?.detail?.value)"></ion-searchbar>
+  <ion-reorder-group disabled="false" *ngIf="menuCategories$ | async as cats"
+    (ionItemReorder)="reorderCategory($event, cats)">
+    <!-- <ion-item>
+      <ion-toggle slot="end" color="dark" (ionChange)="toggleReorderGroup($event)"></ion-toggle>
+    </ion-item> -->
+    <ion-item *ngFor="let c of cats; let i = index" (click)="goToCategoryInfo(c?.id)">
+      <ion-label>
+        {{i + 1 + '. '}} {{ c.title }}
+      </ion-label>
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
+</ion-content>

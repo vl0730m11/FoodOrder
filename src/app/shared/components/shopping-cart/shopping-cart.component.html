@@ -1,0 +1,145 @@
+<ion-item-divider>
+  <h5><b>Your order</b></h5>
+  <ion-chip slot="end" (click)="addItems()">
+    <ion-icon name="add"></ion-icon>
+    <ion-label>Add more</ion-label>
+  </ion-chip>
+  <!-- <ion-button slot="end" size="small" color="dark" (click)="addItems()">
+    <ion-icon name="add" size="small"></ion-icon> &nbsp; Add
+  </ion-button> -->
+</ion-item-divider>
+<ion-list lines="none">
+  <div *ngIf="cartItems?.length == 0">
+    <ion-card class="full-screen-card" style=" text-align: center;">
+      <ion-card-content>
+        <i class="far fa-frown" style="font-size: 25px;"></i>
+        <br />
+        <p><b>You cart is empty</b></p>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+  <div *ngIf="cartItems?.length > 0">
+    <ion-list lines="full">
+      <ion-item-sliding *ngFor="let cartItem of cartItems">
+        <ion-item>
+          <ion-label>
+            <div class="item-name">{{cartItem?.amount}} x {{ cartItem?.item?.title }} 
+                <span *ngIf="cartItem?.item?.selectedOption">({{cartItem?.item?.selectedOption }})</span> 
+             </div>
+            <div class="item-description" *ngFor="let c of cartItem?.item?.extras">
+              1 x Extra {{ c }}
+            </div>
+            <div class="item-description" *ngFor="let c of cartItem?.item?.removes">
+              1 x No {{ c }}
+            </div>
+            <div class="item-price">{{ cartItem?.itemPrice | currency }}</div>
+            <!-- <h2>{{cartItem?.amount}} x {{ cartItem?.item?.title }}</h2>
+            <h4 *ngFor="let c of cartItem?.item?.extras">
+              1 x Extra {{ c }}
+            </h4>
+            <h4 *ngFor="let c of cartItem?.item?.removes">
+              1 x No {{ c }}
+            </h4> 
+           <p>{{ cartItem?.itemPrice | currency }}</p>-->
+          </ion-label>
+          <ion-buttons *ngIf="!readonly" slot="end">
+            <ion-button slot="icon-only" color="success" (click)="decrement(cartItem)">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </ion-button>
+            &nbsp;
+            <ion-label>{{ cartItem.amount }}</ion-label>
+            &nbsp;
+            <ion-button slot="icon-only" color="success" (click)="increment(cartItem)">
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <ion-item-options *ngIf="!readonly" side="end">
+          <ion-item-option color="danger" (click)="removeCartItem(cartItem)">Delete</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item *ngIf="cartItems?.length > 0">
+        <ion-textarea style="font-size: 14px" rows="3" cols="20" maxLength="200"
+          placeholder="Add a note (extra napkins, extra sauce...)" [(ngModel)]="orderNote"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>Tips (optional)</ion-label>
+      </ion-item>
+      <ion-slides [options]="slideOpts">
+        <ion-slide *ngFor="let item of tipOpts">
+          <ion-card class="tip-card">
+            <ion-label>
+              <p>{{ item | currency }} </p>
+            </ion-label>
+            <div *ngIf="tips == 0 || tips != item" (click)="tips = item" style="color: #28ba62">
+              <ion-icon name="add-outline"></ion-icon> Add
+            </div>
+            <div *ngIf="tips == item" (click)="tips = 0" style="color:#eb445a">
+              <ion-icon name="remove-outline"></ion-icon> Remove
+            </div>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </ion-list>
+  </div>
+  <ion-list>
+    <!-- <ion-card style="margin: 0 !important; background: whitesmoke; border-radius: 0;"> -->
+    <!-- <ion-item>
+        <ion-label>Add tips (optional)</ion-label>
+      </ion-item>
+      <ion-slides [options]="slideOpts">
+        <ion-slide *ngFor="let item of tipOpts">
+          <ion-card class="tip-card">
+            <ion-label>
+              <p>{{ item | currency }} </p>
+            </ion-label>
+            <div *ngIf="tips == 0 || tips != item" (click)="tips = item" style="color: #28ba62">
+              <ion-icon name="add-outline"></ion-icon> Add
+            </div>
+            <div *ngIf="tips == item" (click)="tips = 0" style="color:#eb445a">
+              <ion-icon name="remove-outline"></ion-icon> Remove
+            </div>
+          </ion-card>
+        </ion-slide>
+      </ion-slides> -->
+    <!-- </ion-card> -->
+  </ion-list>
+  <br />
+  <ion-list lines="none">
+    <ion-item style="font-size: 14px;">
+      <ion-label slot="start">
+        Subtotal
+      </ion-label>
+      <ion-text slot="end">
+        {{ cartPrice | currency  }}
+      </ion-text>
+    </ion-item>
+    <ion-item style="font-size: 14px;">
+      <ion-label slot="start">
+        Delivery Fee
+      </ion-label>
+      <ion-text slot="end">
+        {{ deliveryFee | currency }}
+      </ion-text>
+    </ion-item>
+    <ion-item style="font-size: 14px;">
+      <ion-label slot="start">
+        Tips
+      </ion-label>
+      <ion-text slot="end">
+        {{ tips | currency }}
+      </ion-text>
+    </ion-item>
+    <ion-item style="font-size: 14px;">
+      <ion-label slot="start">
+        <b>Total</b>
+      </ion-label>
+      <ion-text slot="end">
+        {{ cartPrice + deliveryFee + tips | currency }}
+      </ion-text>
+    </ion-item>
+  </ion-list>
+</ion-list>

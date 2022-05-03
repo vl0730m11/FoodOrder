@@ -1,0 +1,8 @@
+.vertical-center {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 100;
+}

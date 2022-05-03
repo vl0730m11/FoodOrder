@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content *ngIf="loadedItem$ | async as loadedItem">
+  <ion-grid no-padding>
+    <ion-row>
+      <ion-thumbnail style="width: 100%; height: 250px;">
+        <img [src]="loadedItem?.imageUrl">
+      </ion-thumbnail>
+    </ion-row>
+  </ion-grid>
+
+  <ion-toolbar>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <ion-label>
+        <h2 style="text-align: center;"> {{ loadedItem?.title}} </h2>
+        <p style="font-size:15px; text-align: center; margin: 10px 0 10px 0;"> {{ loadedItem?.price | currency}} </p>
+      </ion-label>
+      <br />
+    </div>
+    <div style="display: flex; align-items: centerl; justify-content: center;">
+      <ion-buttons>
+        <ion-button slot="icon-only" color="danger" (click)="decrement()">
+          <ion-icon name="remove-circle-outline" size="large"></ion-icon>
+        </ion-button>
+        &nbsp;
+        <ion-label>{{ itemCount }}</ion-label>
+        &nbsp;
+        <ion-button slot="icon-only" color="danger" (click)="increment()">
+          <ion-icon name="add-circle-outline" size="large"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+
+  <ion-list>
+    <div *ngIf="extraIngredients.length > 0">
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>
+            Add
+          </ion-label>
+        </ion-item-divider>
+        <ion-item *ngFor="let ingredient of extraIngredients">
+          <ion-label>
+            <h2>Extra {{ ingredient.title }}</h2>
+            <p>{{ ingredient.price | currency }}</p>
+          </ion-label>
+          <ion-checkbox slot="end" color="danger" [(ngModel)]="ingredient.isChecked" (click)="toggleExtras(ingredient)">
+          </ion-checkbox>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>
+            Remove
+          </ion-label>
+        </ion-item-divider>
+        <ion-item *ngFor="let ingredient of removeIngredients">
+          <ion-label>
+            <h2>No {{ ingredient.title }}</h2>
+          </ion-label>
+          <ion-checkbox slot="end" color="danger" [(ngModel)]="ingredient.isChecked"
+            (click)="toggleRemoves(ingredient)">
+          </ion-checkbox>
+        </ion-item>
+      </ion-item-group>
+    </div>
+    <ion-item>
+      <ion-label>Notes</ion-label>
+      <ion-textarea placeholder='Specify any specific request...'></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content> -->
+<ion-content>
+  <item-details [item]="loadedItem$ | async" (valueChange)="onValueChange($event)">
+  </item-details>
+</ion-content>
+
+<ion-footer *ngIf="loadedItem$ | async as item">
+  <ion-button *ngIf="!item?.unavailable" expand="full" color="dark" (click)="addToCart()">
+    Add to Cart &nbsp; - &nbsp; {{ totalPrice | currency }}
+  </ion-button>
+  <ion-button *ngIf="item?.unavailable" expand="full" color="danger">
+    This item is sold out
+  </ion-button>
+</ion-footer>

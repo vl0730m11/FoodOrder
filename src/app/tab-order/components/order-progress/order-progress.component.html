@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Order Progress</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding>
+  <ion-item>
+    <ion-label>
+      <h2>Order #{{ order?.id }}</h2>
+      <p>{{branch?.branchName}}</p>
+      <p>{{ branch?.address }}</p>
+      <p>{{ branch?.suburb }}, {{ branch?.postcode}}</p>
+      <p>Tel: {{ branch?.telephone }} </p>
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button size="default" color="success">
+        <ion-icon name="call" size="default" (click)="callRestaurant(branch)"></ion-icon>
+      </ion-button>
+      <ion-button size="default" color="success"S>
+        <ion-icon name="navigate" size="default" (click)="openGps(branch)"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-item>
+  <ion-list lines="none" *ngIf="order?.orderType === 2">
+    <ion-item [ngStyle]="order.status == 0 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 0" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Order is being confirmed. </ion-text>
+    </ion-item>
+    <ion-item [ngStyle]="order.status == 1 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 1" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Food is being prepared. </ion-text>
+    </ion-item>
+    <ion-item [ngStyle]="order.status == 2 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 2" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Order is ready for delivery. </ion-text>
+    </ion-item>
+    <ion-item [ngStyle]="order.status == 3 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 3" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Order has been shipped. </ion-text>
+    </ion-item>
+    <ion-item [ngStyle]="order.status == 4 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 4" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Food is arriving. Time to eat! </ion-text>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="none" *ngIf="order.orderType === 1">
+    <ion-item [ngStyle]="order.status == 0 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 0" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Order is being confirmed. </ion-text>
+    </ion-item>
+    <ion-item [ngStyle]="order.status == 1 ? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 1" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Food is being prepared. </ion-text>
+    </ion-item>
+    <ion-item [ngStyle]="order.status == 2? {'color':'black', 'font-weight': 'bold'}: {'color':'grey'}">
+      <ion-icon slot="end" *ngIf="order.status > 2" color="success" name="checkmark-outline"></ion-icon>
+      <ion-text>Order is ready for pickup. </ion-text>
+    </ion-item>
+  </ion-list>
+  <ion-card class="full-screen-card" style="background-color: #353332;  text-align: center;">
+    <ion-card-content>
+      <h1 style="color:whitesmoke;">{{ order?.deliveryTime | date: 'h:mm a'}}</h1>
+      <p style="color:#DADADA;">ESTIMATE DELIVERY TIME</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

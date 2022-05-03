@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Categories" color="dark" defaultHref="tabs/admin/manage-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Category</ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" (click)="saveChanges()" color="dark">
+        <!-- <ion-icon name="close-outline"></ion-icon> -->
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="category$ | async as c">
+    <!-- <ion-list-header>
+      <ion-label>{{ c?.title }}</ion-label>
+    </ion-list-header> -->
+    <ion-list lines="none">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <ion-thumbnail size="large" style="margin-top: 10px; width: 50%; height:auto">
+          <img [src]="c?.imageUrl?  c?.imageUrl : 'assets/icon/unavailable.png' ">
+        </ion-thumbnail>
+      </div>
+      <ion-item>
+        <ion-label position="floating">Category Name <span style="color: red">*</span></ion-label>
+        <ion-input [(ngModel)]="c.title"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label slot="start">Items</ion-label>
+        <ion-searchbar animated (ionChange)="onSearch($event?.detail?.value)"></ion-searchbar>
+        <ion-chip slot="end" (click)="addItem(c?.id)">
+          <!-- <ion-icon name="add"></ion-icon> -->
+          <ion-label>Add</ion-label>
+        </ion-chip>
+      </ion-item-divider>
+      <ion-list>
+        <ion-item *ngFor="let item of menuItems$ | async" (click)="goToItemInfo(item)" detail>
+          <ion-label>{{item?.title}}</ion-label>
+          <ion-note slot="end">Edit</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-item-group>
+  </div>
+</ion-content>

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" text="" defaultHref="tabs/more"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reservations</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-item-group *ngIf="currentBookings$ | async as bookings">
+    <ion-item-divider>
+      <ion-text style="font-size:14px">Upcoming ({{ bookings?.length }})</ion-text>
+    </ion-item-divider>
+    <div *ngIf="bookings?.length">
+      <booking-card *ngFor="let b of bookings" [booking]="b" [active]="true" (click)="goToBookingDetails(b)">
+      </booking-card>
+    </div>
+    <ion-card *ngIf="!bookings?.length" style="border-radius: 0; margin: 0px !important; text-align: center">
+      <ion-card-content>
+        <ion-icon name="calendar-outline" size="large"></ion-icon>
+        <br />
+        <ion-text><b>No upcoming reservations just yet</b></ion-text>
+        <p>Book a table to see it here</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-item-group>
+
+  <ion-item-group *ngIf="pastBookings$ | async as bookings">
+    <div *ngIf="bookings.length">
+      <ion-item-divider>
+        <ion-text style="font-size:14px">Past ({{ bookings?.length }})</ion-text>
+      </ion-item-divider>
+      <booking-card *ngFor="let b of bookings" [booking]="b" [active]="false">
+      </booking-card>
+    </div>
+  </ion-item-group>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" color="dark" (click)="createBooking()">
+    Book a table
+  </ion-button>
+</ion-footer>

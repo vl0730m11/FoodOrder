@@ -1,0 +1,21 @@
+ion-item {
+  font-size: 14px;
+  .info-label {
+    text-align: left;
+  }
+  ion-input,
+  ion-datetime,
+  ion-select {
+    // font-weight: bold;
+    text-align: right;
+  }
+}
+
+ion-slide {
+  width: unset !important;
+}
+
+ion-item-divider {
+  border-top: solid 1px rgb(200, 199, 204, 1) !important;
+  border-bottom: solid 1px rgb(200, 199, 204, 1) !important;
+}

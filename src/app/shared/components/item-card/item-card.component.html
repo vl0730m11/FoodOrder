@@ -1,0 +1,15 @@
+<ion-card style="margin-top: 0 !important">
+  <div class="item-border" *ngIf="showFavorite">
+    <ion-icon *ngIf="isFavorite$ | async" class="favoriteIcon" [name]="'heart'" color="dark" (click)="like($event)">
+    </ion-icon>
+    <ion-icon *ngIf="!(isFavorite$ | async)" class="favoriteIcon" [name]="'heart-outline'" color="danger"
+      (click)="unlike($event)">
+    </ion-icon>
+    <!--  <ion-icon class="favoriteIcon" [name]="isFavorite ? 'heart' : 'heart-outline'"
+      color="danger" (click)="toggleFavorite($event)"></ion-icon> -->
+  </div>
+  <ion-img rel="prefetch" [src]="item?.imageUrl ? item?.imageUrl : 'assets/icon/unavailable.png'"></ion-img>
+  <p style="font-size: 10px; font-weight: 700; padding-left:5px; padding-right: 5px; text-align: left;">
+    {{ item?.title }} </p>
+  <p style="font-size: 10px; padding-left:5px; text-align: left;">{{ item?.price | currency}} </p>
+</ion-card>

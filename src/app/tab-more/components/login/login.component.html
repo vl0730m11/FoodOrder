@@ -1,0 +1,37 @@
+<ion-card>
+  <ion-list lines="none" style="padding: 10px !important">
+    <ion-item>
+      <p style="font-size:small">Sign up to faster checkout</p>
+    </ion-item>
+    <ion-button expand="block" fill="solid" color="primary" (click)="loginFacebook.emit()">
+      <ion-icon name="logo-facebook" slot="start"></ion-icon>
+      Sign in with Facebook
+    </ion-button>
+    <ion-button expand="block" fill="solid" color="danger" (click)="loginGoogle.emit()">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      Sign in with Gmail
+    </ion-button>
+    <ion-button expand="block" fill="solid" color="light" (click)="goToSignup()">
+      <ion-icon name="mail" slot="start"></ion-icon>
+      Sign up with email
+    </ion-button>
+    <br />
+    <ion-item>
+      <p style="font-size:small">We don't post anything on Facebook or Google and we won't share your information to
+        third parties.</p>
+    </ion-item>
+  </ion-list>
+
+</ion-card>
+<ion-card>
+  <ion-list lines="none" style="padding: 10px !important">
+    <ion-item>
+      <p style="font-size:small">Already have an account?</p>
+    </ion-item>
+    <ion-button expand="block" fill="solid" color="light" (click)="goToSignin()">
+      <ion-icon name="arrow-forward-circle" slot="start"></ion-icon>
+      Sign in
+    </ion-button>
+  </ion-list>
+  <br />
+</ion-card>

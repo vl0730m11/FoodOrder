@@ -1,0 +1,85 @@
+<ion-card>
+  <ion-list>
+    <ion-item-sliding #slidingItem>
+      <ion-item class="order-header" (click)="onSelectOrder($event, order, slidingItem)">
+        <ng-container *ngIf="order?.orderType == 1" [ngSwitch]="order?.status">
+          <ion-icon *ngSwitchCase="-1" slot="start" name="close-circle-outline" color="danger" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="0" slot="start" name="alert-circle-outline" size="large" style="color: #e0ac08;">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="1" slot="start" name="alarm-outline" color="dark" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="2" slot="start" name="checkmark-circle-outline" color="success" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="4" slot="start" name="checkmark-done-circle-outline" color="success" size="large">
+          </ion-icon>
+        </ng-container>
+        <ng-container *ngIf="order?.orderType == 2" [ngSwitch]="order?.status">
+          <ion-icon *ngSwitchCase="-1" slot="start" name="close-circle-outline" color="danger" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="0" slot="start" name="alert-circle-outline" style="color: #e0ac08;" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="1" slot="start" name="alarm-outline" color="dark" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="2" slot="start" name="checkmark-circle-outline" color="success" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="3" slot="start" name="car-outline" color="dark" size="large">
+          </ion-icon>
+          <ion-icon *ngSwitchCase="4" slot="start" name="checkmark-done-circle-outline" color="success" size="large">
+          </ion-icon>
+        </ng-container>
+        <ion-label>
+          <h2>{{ getOrderStatus(order?.status, order?.orderType) }}</h2>
+          <h2>{{ order?.orderType === 1 ? 'PICKUP' : 'DELIVERY' }}</h2>
+          <p>{{ order?.createdOn | date: 'dd/MM/yyyy HH:mm a' }}</p>
+          <p>Order #{{ order?.id }}: {{ order?.customer?.name }} </p>
+          <p *ngIf="order?.customer?.mobile">M: {{ order?.customer?.mobile }} </p>
+          <p *ngIf="order?.customer?.address1">A: {{ order?.customer?.address1 }}</p>
+          <div *ngIf="!order?.showDetails" (click)="toggleDetails($event, order)" style="z-index: 1;">
+            Show details <ion-icon name="chevron-down-circle-outline"></ion-icon>
+          </div>
+          <div *ngIf="order?.showDetails" (click)="toggleDetails($event, order)" style="z-index: 1;">
+            Hide details <ion-icon name="chevron-up-circle-outline"></ion-icon>
+          </div>
+        </ion-label>
+        <ion-avatar slot="end" size="large" style="width: 40px; height: 40px">
+          <img [src]="order?.customer?.imageUrl ? order?.customer?.imageUrl : 'assets/icon/unavailable.png'">
+        </ion-avatar>
+      </ion-item>
+      <ion-item-options side="end" *ngIf="order?.status !== -1 && order?.status !== 4">
+        <ion-item-option color="light" (click)="presentActionSheet(order, slidingItem)">
+          <ion-icon color="dark" size="large" name="menu"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="light" (click)="prevStatus(order, slidingItem)">
+          <ion-icon color="dark" size="large" name="arrow-back-circle"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="light" (click)="nextStatus(order, slidingItem)">
+          <ion-icon color="dark" size="large" name="arrow-forward-circle"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-list lines="none" *ngIf="order?.showDetails || showDetailsAll">
+      <ion-item *ngFor="let item of order?.cartItems">
+        <ion-label>
+          <h2>{{item?.amount}} x {{ item?.item?.title }}
+            <span *ngIf="item?.item?.selectedOption">({{item?.item?.selectedOption }})</span> 
+          </h2>
+          <h4 *ngFor="let c of item?.item?.extras">
+            1 x Extra {{ c }}
+          </h4>
+          <h4 *ngFor="let c of item?.item?.removes">
+            1 x No {{ c }}
+          </h4>
+          <p>{{ item?.itemPrice | currency }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-item>
+      <ion-label style="font-size: 14px;">
+        <b>Total: {{ order?.orderPrice | currency}}</b><br />
+        <b>{{ order?.orderType == 1? 'Pickup': 'Delivery'}}: {{ order?.deliveryTime | date: 'HH:mma dd/MM/yyyy ' }} </b>
+      </ion-label>
+      <ion-button slot="end" color="dark" (click)="viewReceipt(order)">View Receipt</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-card>

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" text="" defaultHref="tabs/more"></ion-back-button>
+    </ion-buttons>
+    <ion-title>User Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="loading$ | async" class="spinnerCenter">
+    <ion-spinner class="spinner" name="lines"></ion-spinner>
+  </div>
+  <ion-backdrop *ngIf="loading$ | async" tappable="false" visible="true" stopPropagation="true">
+  </ion-backdrop>
+  <user-login *ngIf="!(user$| async)" (loginGoogle)="loginGoogle()" (loginFacebook)="loginFacebook()">
+  </user-login>
+  <user-profile *ngIf="user$ | async" [user]="user$ | async" [cards]="cards$ | async" (saveClick)="saveUser($event)"
+    (deleteCard)="deleteCard($event)" (logout)="logout()">
+  </user-profile>
+</ion-content>

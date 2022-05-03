@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" color="dark" defaultHref="tab-admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-button (click)="open()">Load CSV</ion-button>
+  <ion-button (click)="exportCSV()">Export</ion-button>
+  <ion-button (click)="importMenuItems()">Import</ion-button> -->
+  <!-- <table border="1" class="data-table">
+    <tr>
+      <td *ngFor="let header of headerRow" text-center>
+        <b>{{ header }}</b>
+      </td>
+    </tr>
+
+    <tr *ngFor="let row of csvData; let i = index">
+      <td *ngFor="let data of row; let j = index; trackBy: trackByFn" class="data-col">
+        <ion-input type="text" [(ngModel)]="csvData[i][j]"></ion-input>
+      </td>
+    </tr>
+  </table> -->
+
+  <kendo-grid [kendoGridBinding]="csvData$ | async" [selectable]="selectableSettings" [sortable]="true"
+    [loading]="loading" [filterable]="true" kendoGridSelectBy="id">
+    <ng-template kendoGridToolbarTemplate>
+      <ion-button (click)="open()">Load CSV</ion-button>
+      <ion-button (click)="exportCSV()">Export</ion-button>
+      <ion-button (click)="importMenuItems()">Import</ion-button>
+    </ng-template>
+    <ng-container *ngFor="let c of tableColumns">
+      <kendo-grid-column hidden="{{c.hidden}}" field='{{c.prop}}' title='{{c.name}}' [width]='c.width'
+        [filterable]='c.isFilterable' [filter]="c['filterType']? c['filterType']: 'text'"
+        [format]="c['format']? c['format']: '{0:c}'" [headerStyle]="{'font-weight':'bold'}">
+      </kendo-grid-column>
+    </ng-container>
+
+    <!-- <tr *ngFor="let row of csvData; let i = index">
+      <td *ngFor="let data of row; let j = index; trackBy: trackByFn" class="data-col">
+        <ion-input type="text" [(ngModel)]="csvData[i][j]"></ion-input>
+      </td>
+    </tr> -->
+  </kendo-grid>
+  <!-- 
+  <kendo-upload #kendoUpload [saveUrl]="'saveUrl'" [removeUrl]="'removeUrl'" [multiple]="false"
+    [restrictions]="uploadRestrictions" (valueChange)="valueChange($event)">
+  </kendo-upload> -->
+</ion-content>

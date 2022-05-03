@@ -1,0 +1,17 @@
+.spinnerCenter {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center; // Horizontal align
+    align-items: center; // Vertical align
+    height: 100%;
+    margin-top: 150px
+}
+
+.spinner {
+    width: 100px;
+    height: 100px;
+}
+
+ion-backdrop {
+    opacity: 0.4;
+}

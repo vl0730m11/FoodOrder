@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" color="dark" defaultHref="tab-admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-toolbar>
+    <ion-segment scrollable (ionChange)="segmentChanged(+$event.detail.value)" value="0">
+      <ion-segment-button value="0">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        <ion-label>Entrees</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="2">
+        <ion-label>Mains</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="3">
+        <ion-label>Soups</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="4">
+        <ion-label>Drinks</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="5">
+        <ion-label>Desserts</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-list-header>
+    <ion-label>Menu</ion-label>
+  </ion-list-header>
+  <ion-list-header>
+    <br />
+    <br />
+    <ion-fab vertical="center" horizontal="center">
+      <ion-fab-button size="small" color="medium">
+        <ion-icon class="fas fa-dollar-sign" size="small"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="start">
+        <ion-fab-button *ngFor="let opt of [5,10]" color="light" (click)="confirmUpdateBatchPrice(-opt)">
+          <ion-text color="danger">
+            <p>-{{ opt }}%</p>
+          </ion-text>
+        </ion-fab-button>
+      </ion-fab-list>
+      <ion-fab-list side="end">
+        <ion-fab-button *ngFor="let opt of [5,10]" color="light" (click)="confirmUpdateBatchPrice(opt)">
+          <ion-text color="success">
+            <p>+{{ opt }}%</p>
+          </ion-text>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+    <br />
+    <br />
+  </ion-list-header>
+  <ion-list lines="full">
+    <ion-item-sliding #slidingItem *ngFor="let item of items$ | async">
+      <ion-item>
+        <ion-label>
+          <h2>#{{ item?.id }} {{ item?.title }}</h2>
+        </ion-label>
+        <ion-note slot="end" *ngIf="item?.unavailable === 0">{{ item?.price | currency }}</ion-note>
+        <ion-button slot="end" color="danger" *ngIf="item?.unavailable === 1">Sold out</ion-button>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="light" (click)="presentActionSheet(item, slidingItem)">
+          <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="confirmRemoveItem(item, slidingItem)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <!-- <ion-list lines="full" *ngIf="isEntree">
+    <ion-item *ngFor="let item of entrees$ | async">
+      <ion-label>
+        <h2>#{{ item?.id }} {{ item?.title }}</h2>
+      </ion-label>
+      <ion-note slot="end" *ngIf="item?.unavailable === 0">{{ item?.price | currency }}</ion-note>
+      <ion-button slot="end" color="danger" *ngIf="item?.unavailable === 1">Sold out</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="full" *ngIf="isMain">
+    <ion-item *ngFor="let item of mains$ | async">
+      <ion-label>
+        <h2>#{{ item?.id }} {{ item?.title }}</h2>
+      </ion-label>
+      <ion-note slot="end" *ngIf="item?.unavailable === 0">{{ item?.price | currency }}</ion-note>
+      <ion-button slot="end" color="danger" *ngIf="item?.unavailable === 1">Sold out</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="full" *ngIf="isSoup">
+    <ion-item *ngFor="let item of soups$ | async">
+      <ion-label>
+        <h2>#{{ item?.id }} {{ item?.title }}</h2>
+      </ion-label>
+      <ion-note slot="end" *ngIf="item?.unavailable === 0">{{ item?.price | currency }}</ion-note>
+      <ion-button slot="end" color="danger" *ngIf="item?.unavailable === 1">Sold out</ion-button>
+    </ion-item>
+  </ion-list> -->
+</ion-content>

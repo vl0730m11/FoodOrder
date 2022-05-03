@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-thumbnail slot="start" style="height:60px; width: 100%">
+      <img src="./assets/icon/aulac-logo.jpg">
+    </ion-thumbnail>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding class="slider-zoom">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list lines="none">
+    <menu-sliding-panel *ngIf="entrees$ | async as items" [items]="items" [header]="'Entree'"
+      [iconClass]="'fas fa-salad'" [showFavorite]="false">
+    </menu-sliding-panel>
+    <menu-sliding-panel *ngIf="soups$ | async as items" [items]="items" [header]="'Soups'" [iconClass]="'fas fa-soup'"
+      [showFavorite]="false">
+    </menu-sliding-panel>
+    <menu-sliding-panel *ngIf="signatures$ | async as items" [items]="items" [header]="'Au Lac Signature'"
+      [iconClass]="'fas fa-hat-chef'" [showFavorite]="false">
+    </menu-sliding-panel>
+    <!-- <menu-sliding-panel *ngIf="popularItems$ | async as items" [items]="items" [header]="'Popular'"
+      [iconClass]="'fas fa-heart'" [showFavorite]="false">
+    </menu-sliding-panel>
+    <menu-sliding-panel *ngIf="seasonalItems$ | async as items" [items]="items" [header]="'Seasonal'"
+      [iconClass]="'fas fa-candy-cane'" [showFavorite]="false">
+    </menu-sliding-panel> -->
+    <menu-sliding-panel *ngIf="favoriteItems$ | async as items" [items]="items" [header]="'My Favorites'"
+      [iconClass]="'fas fa-star'">
+    </menu-sliding-panel>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-button *ngIf="cartPrice > 0" expand="full" color="dark" (click)="goToCheckout()">
+    View Cart &nbsp; - &nbsp; {{ cartPrice | currency }}
+  </ion-button>
+</ion-footer>

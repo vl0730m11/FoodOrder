@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" (click)="closeModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <item-details [item]="loadedItem" (valueChange)="onValueChange($event)">
+  </item-details>
+</ion-content>
+
+<ion-footer>
+  <ion-button *ngIf="!loadedItem?.unavailable" expand="full" color="dark" (click)="addToCart()">
+    Add to Cart &nbsp; - &nbsp; {{ totalPrice | currency }}
+  </ion-button>
+  <ion-button *ngIf="loadedItem?.unavailable" expand="full" color="danger">
+    This item is sold out
+  </ion-button>
+</ion-footer>
